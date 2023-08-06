@@ -17,13 +17,15 @@ public class Main {
 		int tmp = 0;
 		for(int i = 2; i < MAX; i++) {
 			if(prime[i]) continue;
-
+			
 			check.add(i);
+			
 			for(int j = i+i; j < MAX; j += i) {
 				prime[j] = true;
 			}
 		}
-		check.add(0);
+		
+		check.add(MAX);
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -39,13 +41,17 @@ public class Main {
 		int start = 0, end = 1;
 		
 		int answer = 0;
-		while(start < end) {
+		while(true) {
 			if(sum == n) answer++;
-			if(end <= start || end == check.size()) break;
-            
-			if(sum < n) sum += check.get(end++);
+			
+			if(end <= start) break;
+			
+			if(sum < n) {
+				sum += check.get(end++);
+			}
 			else sum -= check.get(start++);
 		}
+		
 		System.out.println(answer);
 	}
 }
