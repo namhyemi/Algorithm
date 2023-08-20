@@ -10,7 +10,6 @@ public class Main {
 	static int dy[] = {1,0,-1,0};
 			
 	static int R, C, board[][];
-	static boolean visit[][];
 	static boolean useAlphabet[] = new boolean[26];
 	
 	static int maxLength = 0;
@@ -24,7 +23,6 @@ public class Main {
 		R = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
 		board = new int[R][C];
-		visit = new boolean[R][C];
 		
 		for(int i = 0; i < R; i++) {
 			String str = br.readLine();
@@ -34,8 +32,6 @@ public class Main {
 		}
 		
 		// 시작 위치 (0,0)
-		
-		visit[0][0] = true;
 		useAlphabet[board[0][0]] = true;
 
 		findRoute(new Point(0,0), 0);
@@ -50,14 +46,11 @@ public class Main {
 			int my = current.y + dy[i];
 						
 			if(mx < 0 || mx >= R || my < 0 || my >= C) continue; // 공반 배열 넘어가면 패스
-			if(visit[mx][my]) continue; // 해당 위치 방문했으면 패스
 			if(useAlphabet[board[mx][my]]) continue; // 해당 알파벳 사용했으면 패스
 			
-			visit[mx][my] = true;
 			useAlphabet[board[mx][my]] = true;
 			findRoute(new Point(mx, my), length + 1); 
 			useAlphabet[board[mx][my]] = false;
-			visit[mx][my] = false;
 		}
 		maxLength = Math.max(length, maxLength);
 	}
