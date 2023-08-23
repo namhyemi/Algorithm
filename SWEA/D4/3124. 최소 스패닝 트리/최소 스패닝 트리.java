@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
-	
 	static class Edge implements Comparable<Edge>{
 		int from, to;
 		long weight;
@@ -23,7 +22,9 @@ public class Solution {
 	
 	public static void make() {
 		parents = new int[V+1];
+		rank = new int[V+1];
 		for(int i = 1; i <= V; i++) {
+			rank[i] = 1;
 			parents[i] = i;
 		}
 	}
@@ -39,12 +40,20 @@ public class Solution {
 		
 		if(aRoot == bRoot) return false;
 		
-		parents[bRoot] = aRoot;
+		if(rank[aRoot] < rank[bRoot]) {
+			parents[aRoot] = bRoot;
+		}
+		else {
+			parents[bRoot] = aRoot;
+			
+			if(rank[aRoot] == rank[bRoot])
+				 rank[aRoot] += 1;
+		}
 		return true;
 	}
 	
 	static int V,E;
-	static int parents[];
+	static int parents[], rank[];
 	
 	static Edge[] edgeList;
 	
@@ -87,7 +96,6 @@ public class Solution {
 			
 			sb.append("#" + tc + " " + result + "\n");
 		}
-		
 		System.out.println(sb);
 	}
 }
