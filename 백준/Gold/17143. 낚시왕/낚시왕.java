@@ -1,7 +1,14 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-
+/*
+1. summary
+	상어가 이동을 마친 후에 한 칸에 상어가 두 마리 이상 있을 수 있다. 이때는 크기가 가장 큰 상어가 나머지 상어를 모두 잡아먹는다.
+2. strategy
+3. note : 100 * 100 * 100(사람 최대 이동) = 1_000_000
+	2 ≤ R, C(공간) ≤ 100, 0 ≤ M(상어 수) ≤ R×C
+	1 ≤ r(상어 시작행) ≤ R, 1 ≤ c(상어 시작열) ≤ C, 0 ≤ s(속력) ≤ 1000, 1 ≤ d(방향) ≤ 4, 1 ≤ z(크기) ≤ 10000
+*/
 public class Main {
 
 	public static class Shark{
