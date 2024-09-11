@@ -1,43 +1,46 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	
-	static int n, m;
-	static int result[];
-	static boolean check[] = new boolean[10];
-	
-	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
-		
-		n = sc.nextInt();
-		m = sc.nextInt();
+    static int N, M;
+    static int[] result;
+    static boolean[] visited;
+    
+    public static void main(String[] args) throws IOException {
 
-		result = new int[m];
-		check = new boolean[n+1];
-		
-		per(0);
-		
-		
-	}
-	
-	public static void per(int cnt) {
-		if(cnt == m) {
-			for(int i  = 0 ; i < result.length; i++) {
-				System.out.print(result[i] + " ");
-			}
-			System.out.println();
-			return;
-		}
-		
-		for(int i = 1; i <= n; i++) {
-			if(check[i]) continue;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-			check[i] = true;
-			result[cnt] = i;
-			per(cnt + 1);
-			check[i] = false;
-		}
-	}
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
+        visited = new boolean[N];
+        result = new int[M];
+
+        per(0);
+    }
+
+    public static void per(int cnt) {
+        if(cnt == M) {
+
+            StringBuilder sb = new StringBuilder();
+            
+            for(int i = 0; i < M; i++) {
+                sb.append(result[i]).append(" ");    
+            }
+            System.out.println(sb.toString());
+            
+            return; 
+        }
+
+        for(int i = 0; i < N; i++) {
+            if(visited[i]) continue;
+
+            visited[i] = true;
+            result[cnt] = i + 1;
+            per(cnt + 1);
+            visited[i] = false;
+        }
+    }
 }
