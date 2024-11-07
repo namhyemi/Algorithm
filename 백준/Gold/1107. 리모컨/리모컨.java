@@ -18,10 +18,15 @@ public class Main {
             arr[num] = true;
         }
 
+        if(endNum == 100) {
+            System.out.println(0);
+            return;
+        }
+        
         minDiff = Math.abs(endNum - startNum); // 오직 +, - 으로 100부터이동
 
         if(!arr[0]) minDiff = Math.min(minDiff, endNum + 1); // 0에서 부터 시작 (별도 체크)
-        for(int n = endNum; n > 0; n--) { // endNum ~ 0
+        for(int n = endNum; n > 0; n--) { // endNum ~ 1
             int cnt = checkDiff(n); // 버튼 클릭 횟수
 
             if(flag) { // 버튼 클릭 가능
@@ -30,7 +35,7 @@ public class Main {
             }
             if(cnt > minDiff) break; // 더 볼 필요 없음  
         }
-        for(int n = endNum + 1; n <= 1_000_000; n++) { // // endNum + 1 ~ 1_000_000
+        for(int n = endNum + 1; n < 1_000_000; n++) { // // endNum + 1 ~ 1_000_000
             int cnt = checkDiff(n); // 버튼 클릭 횟수
             
             if(flag) { // 버튼 클릭 가능
