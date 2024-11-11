@@ -1,28 +1,32 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
+    static int N;
+    static int[] DP = new int[5001];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	public static void main(String[] args) throws Exception {
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int T = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
 
-		int kg_3 = 0;
-		int kg_5 = 0;
+        DP[1] = -1;
+        DP[2] = -1;
+        DP[3] = 1;
+        DP[4] = -1;
+        DP[5] = 1;
 
+        for(int n = 6; n <= N; n++) {
+            int min = 5000;
 
-		while(T - (kg_3 * 3) >= 0) {
-			int remain = T - (kg_3 * 3);
-			if(remain % 5 == 0) {
-				kg_5 = remain / 5;
-				System.out.println(kg_5 + kg_3);
-				return;
-			}
-			else kg_3++;
-		}
-		
-		System.out.println(-1);
-	}
+            if(DP[n - 3] != -1) min = DP[n-3] + 1;
+            if(DP[n - 5] != -1) min = Math.min(DP[n-5] + 1, min);
+            if(min == 5000) min = -1;
+
+            DP[n] = min;
+        }
+
+        System.out.println(DP[N]);
+
+        br.close();
+    }
 }
