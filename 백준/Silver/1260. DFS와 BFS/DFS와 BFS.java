@@ -2,81 +2,79 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static int N, M, startPoint;
+    static boolean[] visited;
+    static List<Integer> result = new ArrayList<>();
+    static ArrayList<Integer>[] graph;
+    static StringBuilder answer = new StringBuilder();
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        StringTokenizer input = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(input.nextToken());
+        M = Integer.parseInt(input.nextToken());
+        startPoint = Integer.parseInt(input.nextToken());
 
-	static int MAX = 1000;
-	static boolean[][] board = new boolean[MAX+1][MAX+1];
-	static boolean[] visit;
-	
-	static int N, M, startPoint;
-	
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringBuilder sb = new StringBuilder();
-	static StringTokenizer st;	
-	
-	public static void main(String[] args) throws Exception {
-	
-		// 사용자 입력
-		st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		startPoint = Integer.parseInt(st.nextToken());
-		
-		for(int i = 1; i <= M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
-			
-			board[x][y] = true; board[y][x] = true;
-		}
-		
-		// dfs 실행
-		visit = new boolean[MAX+1];
-		dfs(startPoint);
-		
-		sb.append("\n");
-		
-		// bfs 실행
-		visit = new boolean[MAX+1];
-		bfs();
-		
-		
-		// 결과 출력
-		System.out.println(sb);
-	}
-	
-	// bfs()
-	public static void bfs() {
-		Queue<Integer> q = new ArrayDeque<>();
-		
-		// 입력 받은 시작 노드 부터 시작
-		q.offer(startPoint);
-		visit[startPoint] = true;
-		
-		while(!q.isEmpty()) {
-			int node = q.poll();
-			sb.append(node + " ");
-			
-			for(int i = 1; i <= N; i++) {
-				if(!board[node][i]) continue; // 연결되어 있지 않으면 패스
-				if(visit[i]) continue; // 이미 방문한 노드는 패스
-		
-				visit[i] = true;
-				q.offer(i); // 조건에 충족한 정점을 방문처리 후 큐에 담기
-			}
-		}
-	}
-	
-	// dfs()
-	public static void dfs(int node) {
-		
-		visit[node] = true;
-		sb.append(node + " ");
-		
-		for(int i = 1; i <= N; i++) {
-			if(!board[node][i]) continue; // 연결되어 있지 않으면 패스
-			if(visit[i]) continue; // 이미 방문한 노드는 패스
-			
-			dfs(i);
-		}
-	}
+        graph = new ArrayList[N + 1];
+        
+        for(int n = 0; n <= N; n++) {
+            graph[n] = new ArrayList<Integer>();
+        }
+
+        for(int m = 0; m < M; m++) {
+            input = new StringTokenizer(br.readLine());
+
+            int a = Integer.parseInt(input.nextToken());
+            int b = Integer.parseInt(input.nextToken());
+
+            graph[a].add(b);
+            graph[b].add(a);
+        }
+
+        for(int n = 0; n <= N; n++) {
+            Collections.sort(graph[n]);
+        }
+
+        visited = new boolean[N + 1];
+        DFS(startPoint);
+
+        answer.append("\n");
+        
+        visited = new boolean[N + 1];
+        BFS();
+
+        System.out.println(answer);
+        br.close();
+    }
+
+    public static void DFS(int current) {
+        answer.append(current).append(" ");
+        visited[current] = true;
+        
+        for(int next : graph[current]) {
+            if(visited[next]) continue;
+            DFS(next);
+        }
+    }
+
+    public static void BFS() {
+        Queue<Integer> q = new ArrayDeque<>();
+
+        q.add(startPoint);
+        visited[startPoint] = true;
+
+        while(!q.isEmpty()) {
+            int current = q.poll();
+
+            answer.append(current).append(" ");
+
+            for(int next : graph[current]) {
+                if(visited[next]) continue;
+
+                q.add(next);
+                visited[next] = true;
+            }
+        }
+    }
 }
